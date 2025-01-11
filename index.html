@@ -193,26 +193,27 @@
       .item.active {
         background: cadetblue;
       }
+      .select__count {
+        display: none;
+        color: red;
+        font-size: 20px;
+      }
     </style>
   </head>
   <body>
-    <!-- There are two dropdowns to show multi-menu support -->
-
-    <div class="tags">
-      <!-- <span class="tags__item">Aaa <span> X</span></span>
-      <span class="tags__item">Bbb <span> X</span></span>
-      <span class="tags__item">Ccc <span> X</span></span>
-      <span class="tags__item">Ddd <span> X</span></span> -->
-    </div>
+    <div class="tags"></div>
     <br />
     <button class="clear-all">Clear all</button>
 
     <div class="center">
       <div class="container">
-        <div class="select-wrapper">
+        <div class="select-wrapper" data-cat="topic">
           <div class="setting-description">
             <div class="setting-description-text" style="margin-left: 15px">
-              <h10>Description</h10>
+              <h10
+                >Description
+                <span class="select__count">(<span></span>)</span></h10
+              >
             </div>
           </div>
           <div class="wrapper-dropdown" id="dropdown">
@@ -246,10 +247,13 @@
           </div>
         </div>
 
-        <div class="select-wrapper">
+        <div class="select-wrapper" data-cat="industries">
           <div class="setting-description">
             <div class="setting-description-text" style="margin-left: 15px">
-              <h10>Description</h10>
+              <h10
+                >Description
+                <span class="select__count">(<span></span>)</span></h10
+              >
             </div>
           </div>
           <div class="wrapper-dropdown" id="dropdown">

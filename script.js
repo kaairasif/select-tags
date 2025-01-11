@@ -65,6 +65,7 @@ const tags = [];
 const allItems = document.querySelectorAll(".dropdown > li");
 const tagsView = document.querySelector(".tags");
 const clearAll = document.querySelector(".clear-all");
+const countDisplay = document.querySelectorAll(".select__count");
 
 clearAll.style.display = "none";
 
@@ -87,9 +88,29 @@ for (let el of allItems) {
       tags.push(data);
       handleTags(data);
     }
+
     isClearVisible();
 
-    e.target.classList.add("active");
+    if (e.target.classList.contains("active")) {
+      e.target.classList.remove("active");
+    } else {
+      e.target.classList.add("active");
+    }
+
+    let catCount = tags.filter((tags) => tags.type === type);
+
+    if (catCount.length === 0) {
+      e.target
+        .closest(".select-wrapper")
+        .querySelector(".select__count").style.display = "none";
+    } else if (catCount.length > 0) {
+      e.target
+        .closest(".select-wrapper")
+        .querySelector(".select__count").style.display = "inline-block";
+      e.target
+        .closest(".select-wrapper")
+        .querySelector(".select__count span").innerHTML = catCount.length;
+    }
   });
 }
 
@@ -129,21 +150,49 @@ document.addEventListener("click", (e) => {
       if (itemId === Number(el.closest(".tags__item").dataset.tagid)) {
         el.closest(".tags__item").remove();
         let index = tags.findIndex((i) => i.id === itemId);
+
         tags.splice(index, 1);
+
+        for (let el of allItems) {
+          console.log(el);
+
+          if (Number(el.dataset.id) === itemId) {
+            el.classList.remove("active");
+            let len = tags.filter((tag) => tag.type === el.dataset.type).length;
+
+            if (len === 0) {
+              el
+                .closest(".select-wrapper")
+                .querySelector(".select__count").style.display = "none";
+              el
+                .closest(".select-wrapper")
+                .querySelector(".select__count span").textContent = "";
+            } else {
+              el
+                .closest(".select-wrapper")
+                .querySelector(".select__count span").innerHTML = len;
+            }
+          }
+        }
       }
     }
+
     isClearVisible();
   }
 });
 
 clearAll.addEventListener("click", () => {
   tags.length = 0;
-  console.log(visibleTags());
   for (let el of visibleTags()) {
     el.remove();
   }
   isClearVisible();
   selectDropdownActiveRemove();
+
+  for (let el of countDisplay) {
+    el.querySelector("span").textContent = "";
+    el.style.display = "none";
+  }
 });
 
 const selectDropdownActiveRemove = () => {
